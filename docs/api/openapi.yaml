@@ -1,0 +1,113 @@
+openapi: 3.1.0
+
+info:
+  title: Клиентский Сервис
+  description: API сервиса управления клиентскими данными
+  version: 1.0.0
+
+servers:
+  - url: https://api.client-service.com/v1
+
+paths:
+  /clients/{id}:
+    get:
+      summary: Получить информацию о клиенте по ID
+      description: Возвращает информацию о клиенте.
+      tags: [Клиент]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID клиента
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/$defs/Client'
+
+  /clients/{id}/documents:
+    get:
+      summary: Список документов клиента
+      description: Возвращает список документов клиента по ID.
+      tags: [Документы]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID клиента для поиска его документов
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/$defs/Document'
+
+  /clients/{id}/relatives:
+    get:
+      summary: Информация о родственниках клиента
+      description: Возвращает информацию о родственниках клиента по ID.
+      tags: [Родственники]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID клиента
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/$defs/Relative'
+
+$defs:
+  Client:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      age:
+        type: integer
+
+  Document:
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      number:
+        type: string
+      issueDate:
+        type: string
+        format: date
+      expiryDate:
+        type: string
+        format: date
+
+  Relative:
+    type: object
+    properties:
+      id:
+        type: string
+      relationType:
+        type: string
+      name:
+        type: string
+      age:
+        type: integer
